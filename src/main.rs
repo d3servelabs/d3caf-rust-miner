@@ -13,13 +13,9 @@ fn main() {
     const SOLVER_ADDRESS:Address = address!("819Caa13f9b5211167Ef696aA7dDadd9EA3bb1EB");
     const FACTORY_ADDRESS:Address = address!("5c69bee701ef814a2b6a3edd4b1652cb9cc5aa6f");
     const BYTECODE_HASH:FixedBytes<32> = b256!("78c28f67559fd19647ff0f6c6ec627527c328036073f0a0e0a791dc5f90506b1"); 
-    
-    let num_digits = 4;
 
     // start timer
     let start = std::time::Instant::now();
-
-    let found = Arc::new(Mutex::new(false));
 
     let mut handles = vec![];
     // let sharedCounter = Arc::new(Mutex::new(0));
@@ -27,18 +23,16 @@ fn main() {
     let shared_counter:Arc<Mutex<i64>> = Arc::new(Mutex::new(0));
     let shared_current_best_address: Arc<Mutex<Address>> = Arc::new(Mutex::new(address!("ffffffffffffffffffffffffffffffffffffffff")));
     
-    for thread_index in 0..36 {
+    for thread_index in 0..8 {
 
     let shared_counter_clone = Arc::clone(&shared_counter);
     let shared_current_best_address_clone = Arc::clone(&shared_current_best_address);
         let handle = thread::spawn(move || {
             let mut local_counter = 0;
-            let mut found_local = 0;
             loop {
                 // let data = random data to be input into keccak256
                 // generate random number
-                let mut rng = rand::thread_rng();
-                let mut data = vec![0u8; num_digits];        
+                let mut rng = rand::thread_rng();     
                 let new_source_salt: [u8; 32] = rng.gen();
                 
                 let solver_address_str = encode(SOLVER_ADDRESS);
