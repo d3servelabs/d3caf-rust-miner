@@ -6,6 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-keccak-hash = "0.10.0"
+alloy-primitives = "0.5.3"
 hex = "0.4.3"
 rayon = "1.5.1"

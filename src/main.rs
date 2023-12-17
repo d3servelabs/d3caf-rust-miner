@@ -1,7 +1,7 @@
-extern crate keccak_hash;
 extern crate hex;
+extern crate alloy_primitives;
 
-use keccak_hash::keccak_256;
+use alloy_primitives::utils::keccak256;
 use hex::encode;
 
 fn main() {
@@ -9,11 +9,8 @@ fn main() {
     // convert msg to utf8 bytes
     let data = msg.as_bytes();
     
-    // define an output variable to be used in keccak_256 
-    let mut hash = [0u8; 32];
-
-    // call keccak_256
-    keccak_256(&data, &mut hash);
+    // call keccak256
+    let hash = keccak256(data);
 
     // print
     println!("Hash of {} is {}", msg, encode(hash));
@@ -25,10 +22,9 @@ fn main() {
     let start = std::time::Instant::now();
 
     while num_digits < 4 {
-        let mut hash = [0u8; 32];
         let msg = format!("{}{}", "abcd", counter);
         let data = msg.as_bytes();
-        keccak_256(&data, &mut hash);
+        let hash = keccak256(data);
         let hash_str = encode(hash);
         if hash_str.starts_with("0000") {
             println!("Hash of {} is {}", msg, hash_str);
@@ -42,7 +38,4 @@ fn main() {
         }
         counter += 1;
     }
-    
-    
-
 }
